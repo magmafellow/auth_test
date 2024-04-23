@@ -22,7 +22,7 @@ pool.query
 export async function signup(state: FormState, formData: FormData) {
   // 1. Validate form fields
   const validatedFields = SignupFormSchema.safeParse({
-    name: formData.get('name'),
+    username: formData.get('username'),
     email: formData.get('email'),
     password: formData.get('password'),
   })
@@ -35,24 +35,25 @@ export async function signup(state: FormState, formData: FormData) {
   }
 
   // 2. Prepare data for insertion into database
-  const { name, email, password } = validatedFields.data
+  const { username, email, password } = validatedFields.data
  
   // 3. Insert the user into the database or call an Auth Library's API
-  const data = await pool.query('INSERT INTO person (username, email, password) VALUES ($1, $2, $3)', [name, email, password])
-  console.log(data)
+  const data = await pool.query('INSERT INTO person (username, email, password) VALUES ($1, $2, $3)', [username, email, password])
 
-  // define a user
+  const r = await pool.query('SELECT * FROM person WHERE email = $1', [email])
   
+  const user = r.rows[0]
+  
+  if(!user){
+    return {
+      message: 'An error occured while creating your account'
+    }
+  }
 
-  // TODO:
-  // 4. Create user session
-  // 5. Redirect user
-
-  // Current steps:
   // 4. Create user session
   await createSession(user.id)
   // 5. Redirect user
-  redirect('/profile')
+  redirect('/welcome')
   
   // Call the provider or db to create a user...
 }

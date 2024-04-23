@@ -1,12 +1,14 @@
+'use server'
+
 import "server-only";
 import { SignJWT, jwtVerify } from "jose";
-import { SessionPayload } from "@/app/lib/definitions";
+// import { SessionPayload } from "@/app/lib/definitions";
 import { cookies } from 'next/headers'
 
 const secretKey = process.env.SESSION_SECRET;
 const encodedKey = new TextEncoder().encode(secretKey);
 
-export async function encrypt(payload: SessionPayload) {
+export async function encrypt(payload: any) {
   return new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
@@ -56,6 +58,6 @@ export async function updateSession() {
   })
 }
 
-export function deleteSession() {
+export async function deleteSession() {
   cookies().delete('session')
 }

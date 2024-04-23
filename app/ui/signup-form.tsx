@@ -7,7 +7,7 @@ export function SignupButton() {
   const { pending } = useFormStatus()
  
   return (
-    <button aria-disabled={pending} type="submit">
+    <button className='bg-sky-300 p-2 rounded' aria-disabled={pending} type="submit">
       {pending ? 'Submitting...' : 'Sign up'}
     </button>
   )
@@ -17,22 +17,22 @@ export function SignupForm() {
   const [state, action] = useFormState(signup, undefined)
  
   return (
-    <form action={action}>
-      <div>
-        <label htmlFor="name">Name</label>
-        <input id="name" name="name" placeholder="Name" />
+    <form className='text-center' action={action}>
+      <div className='mb-4'>
+        <label className='mr-2' htmlFor="name">Name</label>
+        <input className='border p-0.5 border-black' id="name" name="username" placeholder="Name" />
       </div>
-      {state?.errors?.name && <p>{state.errors.name}</p>}
+      {state?.errors?.username && <p>{state.errors.username}</p>}
       
-      <div>
-        <label htmlFor="email">Email</label>
-        <input id="email" name="email" placeholder="Email" />
+      <div className='mb-4'>
+        <label className='mr-2' htmlFor="email">Email</label>
+        <input className='border p-0.5 border-black' id="email" name="email" placeholder="Email" />
       </div>
       {state?.errors?.email && <p>{state.errors.email}</p>}
  
-      <div>
-        <label htmlFor="password">Password</label>
-        <input id="password" name="password" type="password" />
+      <div className='mb-4'>
+        <label className='mr-2' htmlFor="password">Password</label>
+        <input className='border p-0.5 border-black' id="password" name="password" type="password" />
       </div>
       {state?.errors?.password && (
         <div>
@@ -44,7 +44,8 @@ export function SignupForm() {
           </ul>
         </div>
       )}
-      <SignupButton />
+      <div className='text-center'><SignupButton /></div>
+      
     </form>
   )
 }
