@@ -1,4 +1,4 @@
-import { verifySession } from "../lib/dal"
+import { getUser, verifySession } from "../lib/dal"
 import passwordForDb from '@/key'
 import pg from "pg";
 
@@ -11,9 +11,10 @@ const pool = new pg.Pool({
 });
 
 export default async function Page(){
-  const session = await verifySession();
-  const user = (await pool.query('SELECT * FROM person WHERE id = $1', [session.userId])).rows[0]
+  // const session = await verifySession();
+  // const user = (await pool.query('SELECT * FROM person WHERE id = $1', [session.userId])).rows[0]
 
+  const user = await getUser();
   
   return(
     <div className="text-sky-800 font-bold text-2xl text-center">
